@@ -8,11 +8,19 @@ export interface Item {
     weight: string;
     description: string;
     type: string;
-    price?: number;
+    price?: string;
     source: string;
     consumable: boolean;
 }
 
 export interface ItemCard {
     item: Item;
+}
+
+export interface Filters {
+    searchTerm: string;
+    showConsumable: boolean;
+    showPermanent: boolean;
+    levelUpper: number;
+    levelLower: number;
 }

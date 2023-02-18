@@ -5,6 +5,8 @@ import { store } from './store/store';
 import { Provider } from 'react-redux';
 import { initializeIcons } from '@fluentui/react/lib/Icons';
 import { setIconOptions } from '@fluentui/react/lib/Styling';
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistStore } from 'redux-persist';
 import styled from '@emotion/styled';
 
 initializeIcons(/* optional base url */);
@@ -44,23 +46,19 @@ const SidebarWrapper = styled.div`
 `;
 
 function App() {
+    let persistedStore = persistStore(store);
+
     return (
         <>
             <Provider store={store}>
-                <CardListWrapper>
-                    <CardList />
-                </CardListWrapper>
-                <SidebarWrapper>
-                    <Sidebar />
-                </SidebarWrapper>
-                {/*<Stack horizontal horizontalAlign={'stretch'} styles={stackStyles}>*/}
-                {/*    <Stack.Item grow={5}>*/}
-                {/*        <CardList />*/}
-                {/*    </Stack.Item>*/}
-                {/*    <Stack.Item className="sidebar">*/}
-                {/*        <Sidebar />*/}
-                {/*    </Stack.Item>*/}
-                {/*</Stack>*/}
+                <PersistGate loading={null} persistor={persistedStore}>
+                    <CardListWrapper>
+                        <CardList />
+                    </CardListWrapper>
+                    <SidebarWrapper>
+                        <Sidebar />
+                    </SidebarWrapper>
+                </PersistGate>
             </Provider>
         </>
     );

@@ -2,10 +2,18 @@ import styled from '@emotion/styled';
 import { Checkbox, FocusZone, FocusZoneDirection, Label, List, SearchBox, Slider } from '@fluentui/react';
 import { DefaultButton } from '@fluentui/react/lib/Button';
 import React, { Fragment, useState } from 'react';
-import { filteredItemNameSelector } from '../../store/features/itemSlice';
+import {
+    filteredItemNameSelector,
+    filterSelector,
+    setSearchTerm,
+    setShowConsumable,
+    setShowPermanent,
+    setLevelLower,
+    setLevelUpper,
+} from '../../store/features/itemSlice';
 import { useAppDispatch, useAppSelector } from '../../store/store';
-import { addCard, clearAllCards } from '../../store/features/cardSlice';
-import { Item } from '../../types';
+import { addCard, cardSelector, clearAllCards } from '../../store/features/cardSlice';
+import { Item, ItemCard, Filters } from '../../types';
 
 const ItemWrapper = styled.div``;
 
@@ -13,7 +21,7 @@ const SearchWrapper = styled.div`
     padding: 10px;
 `;
 
-const Filters = styled.div``;
+const FiltersWrapper = styled.div``;
 
 const ItemType = styled.div`
     display: flex;
@@ -56,19 +64,16 @@ const ListItem = styled.div`
 
 export const ItemList = () => {
     const dispatch = useAppDispatch();
-    const [showConsumables, setShowConsumables] = useState(true);
-    const [showPermanent, setShowPermanent] = useState(true);
-    const [levelLower, setLevelLower] = React.useState(0);
-    //TODO there are items above level 20
-    const [levelUpper, setLevelUpper] = React.useState(20);
-    const [search, setSearch] = useState<string | undefined>('');
+
+    const filters: Filters = useAppSelector((state) => filterSelector(state));
+    const itemList: Item[] = useAppSelector((state) => filteredItemNameSelector(state));
 
     //TODO show preview on hover
-    //TODO persist some of these filters somewhere
+    //TODO show empty message when no resuls
 
     const onSliderChange = (lower: number, upper: number) => {
-        setLevelLower(lower);
-        setLevelUpper(upper);
+        dispatch(setLevelLower(lower));
+        dispatch(setLevelUpper(upper));
     };
 
     function clearCards() {
@@ -91,34 +96,31 @@ export const ItemList = () => {
         );
     }, []);
 
-    // const itemNames: string[] = useAppSelector(itemNameSelector);
-    const itemNames: Item[] = useAppSelector((state) =>
-        filteredItemNameSelector(state, {
-            searchTerm: search?.toLowerCase(),
-            showConsumables: showConsumables,
-            showPermanent: showPermanent,
-            levelLower: levelLower,
-            levelUpper: levelUpper,
-        })
-    );
-
     return (
         <ItemWrapper>
             <SearchWrapper>
-                <SearchBox placeholder="Filter items" onChange={(event, newValue) => setSearch(newValue)} />
-                <Filters>
+                <SearchBox
+                    placeholder="Filter items"
+                    value={filters.searchTerm}
+                    onChange={(event, newValue) => dispatch(setSearchTerm(newValue))}
+                />
+                <FiltersWrapper>
                     <Label>Item Type</Label>
                     <ItemType>
                         <Checkbox
-                            label="Consumables"
-                            checked={showConsumables}
-                            onChange={() => setShowConsumables(!showConsumables)}
+                            label="Consumable"
+                            checked={filters.showConsumable}
+                            onChange={(event, newValue) => {
+                                dispatch(setShowConsumables(newValue ?? false));
+                            }}
                         />
 
                         <Checkbox
                             label="Permanent"
-                            checked={showPermanent}
-                            onChange={() => setShowPermanent(!showPermanent)}
+                            checked={filters.showPermanent}
+                            onChange={(event, newValue) => {
+                                dispatch(setShowPermanent(newValue ?? false));
+                            }}
                         />
                     </ItemType>
                     <ItemLevel>
@@ -127,20 +129,20 @@ export const ItemList = () => {
                             label="Item level"
                             min={0}
                             max={20}
-                            defaultValue={20}
-                            defaultLowerValue={0}
-                            onChange={(event, range) => {
+                            defaultValue={filters.levelUpper}
+                            defaultLowerValue={filters.levelLower}
+                            onChanged={(event, number, range) => {
                                 if (range) {
                                     onSliderChange(range[0], range[1]);
                                 }
                             }}
                         />
                     </ItemLevel>
-                </Filters>
+                </FiltersWrapper>
             </SearchWrapper>
             <ListWrapper>
                 <FocusZone direction={FocusZoneDirection.vertical}>
-                    <List items={itemNames} onRenderCell={onRenderCell} onShouldVirtualize={() => false} />
+                    <List items={itemList} onRenderCell={onRenderCell} onShouldVirtualize={() => false} />
                 </FocusZone>
             </ListWrapper>
             <DefaultButton text="Clear all" onClick={clearCards}></DefaultButton>

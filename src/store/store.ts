@@ -3,22 +3,33 @@ import itemReducer from './features/itemSlice';
 import cardReducer from './features/cardSlice';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import storage from 'redux-persist/lib/storage';
-// import { persistReducer } from 'redux-persist';
-// import thunk from 'redux-thunk';
+import { combineReducers } from 'redux';
+import { persistReducer } from 'redux-persist';
+import thunk from 'redux-thunk';
+
+const itemsConfig = {
+    key: 'items',
+    storage: storage,
+    blacklist: ['items'],
+};
+
+const persistConfig = {
+    key: 'root',
+    storage,
+    blacklist: ['items'],
+};
+
+const reducers = combineReducers({
+    items: persistReducer(itemsConfig, itemReducer),
+    cards: cardReducer,
+});
+
+const persistedReducer = persistReducer(persistConfig, reducers);
 
 export const store = configureStore({
-    reducer: {
-        items: itemReducer,
-        cards: cardReducer,
-    },
+    reducer: persistedReducer,
+    middleware: [thunk],
 });
-//
-// const persistConfig = {
-//     key: 'root',
-//     storage,
-// };
-
-// const persistedReducer = persistReducer(persistConfig, reducers);
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
