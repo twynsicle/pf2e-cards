@@ -1,0 +1,99 @@
+/* move to index? */
+/*@font-face {*/
+/*    font-family: 'Pathfinder_Icons';*/
+/*    src: url('/Pathfinder-Icons.woff2') format('woff2'),*/
+/*    url('/Pathfinder-Icons.woff') format('woff');*/
+/*    font-weight: normal;*/
+/*    font-style: normal;*/
+/*}*/
+
+@font-face {
+    font-family: "Pathfinder_Icons";
+    src: url("/Pathfinder2eActions.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Century Gothic";
+    src: url("/Century Gothic.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+.card {
+    /*font-family: "Century Gothic";*/
+    font-family: sans-serif;
+    font-size: 11px;
+    border: 2px solid black;
+    background-color: white;
+    color: black;
+    max-width: 295px;
+    max-height: 410px;
+    /*min-height: 325px;*/
+    /*width: 260px;*/
+    width: 40%;
+    height: 450px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    font-size: 20px;
+    margin: 0 0 10px;
+    /*padding-bottom: 10px;*/
+    /*border-bottom: 1px solid #555;*/
+}
+
+.name {
+}
+
+.description {
+    flex-grow: 2;
+    line-height: 15px;
+}
+
+.description p {
+    margin: 3px 0;
+}
+
+.description .pf2-icon {
+    font-family: "Pathfinder_Icons";
+    font-size: 1.2rem;
+}
+
+.is-consumable {
+    align-self: center;
+    margin: 0;
+    font-size: 12px;
+    font-style: italic;
+}
+
+.price {
+    align-self: center;
+    font-size: 12px;
+    margin: 0;
+    font-style: italic;
+
+}
+
+.properties {
+    text-align: center;
+    border-top: 1px solid #555;
+    padding-top: 10px;
+    line-height: 15px;
+    margin: 0;
+}
+
+.traits {
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.trait {
+    text-transform: capitalize;
+    padding: 0 2px
+}
