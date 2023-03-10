@@ -58,4 +58,8 @@ body {
         /*width: 240px;*/
         /*height: 336px;*/
     }
+
+    .close {
+        display: none;
+    }
 }

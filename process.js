@@ -57,6 +57,10 @@ function parseDescription(description) {
 }
 
 function calculatePrice(values) {
+    if (!values) {
+        return 'no value';
+    }
+
     let total = 0;
     if (values['pp']) {
         total += values['pp'] * 10;
@@ -91,9 +95,9 @@ fs.readFile('input.json', 'utf8', (err, data) => {
 
     // process the values
     jsonData.results.forEach((item) => {
-        if (!item.system.price) {
-            return;
-        }
+        // if (!item.system.price) {
+        //     return;
+        // }
         if (item.name.indexOf('Class Kit') > -1) {
             return;
         }
@@ -115,7 +119,7 @@ fs.readFile('input.json', 'utf8', (err, data) => {
                 description: parseDescription(item.system.description.value),
                 type: item.type,
                 consumable: consumable,
-                price: calculatePrice(item.system.price.value),
+                price: calculatePrice(item.system.price?.value),
                 source: item.system.source.value,
             });
         } catch {

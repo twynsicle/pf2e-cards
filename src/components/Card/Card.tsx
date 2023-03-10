@@ -1,6 +1,10 @@
 import './Card.css';
 import { ItemCard } from '../../types';
 import { ReactFitty } from 'react-fitty';
+import { useAppDispatch, useAppSelector } from '../../store/store';
+import { borderRadiusSelector } from '../../store/features/settingsSlice';
+import { removeCard } from '../../store/features/cardSlice';
+import { Icon } from '@fluentui/react/lib/Icon';
 
 export interface CardProps {
     card: ItemCard;
@@ -20,10 +24,26 @@ const Trait = (props: TraitProps) => {
 //TODO do i need to include damage for mundane and magical weapons?
 
 export const Card = (props: CardProps) => {
+    const dispatch = useAppDispatch();
     const item = props.card.item;
 
+    const borderRadius = useAppSelector(borderRadiusSelector);
+    const cardStyle = {
+        borderRadius: `${borderRadius}mm`,
+    };
+    const closeIconStyle = {
+        borderTopRightRadius: `${borderRadius}mm`,
+    };
+
+    function removeCardHandler() {
+        dispatch(removeCard(props.card.item));
+    }
+
     return (
-        <div className="card">
+        <div className="card" style={cardStyle}>
+            <div className="close" onClick={removeCardHandler} style={closeIconStyle}>
+                <Icon iconName="ChromeClose" />
+            </div>
             <p className="header">
                 <span className="name"> {item.name} </span>
                 {/*<span className="level"> {item.level} </span>*/}

@@ -1,6 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import itemReducer from './features/itemSlice';
 import cardReducer from './features/cardSlice';
+import settingsReducer from './features/settingsSlice';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import storage from 'redux-persist/lib/storage';
 import { combineReducers } from 'redux';
@@ -22,6 +23,7 @@ const persistConfig = {
 const reducers = combineReducers({
     items: persistReducer(itemsConfig, itemReducer),
     cards: cardReducer,
+    settings: settingsReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);

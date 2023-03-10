@@ -20,6 +20,9 @@ export const cardSlice = createSlice({
             });
             // state.cards = [...state.cards, { item: action.payload }];
         },
+        removeCard: (state, action: PayloadAction<Item>) => {
+            state.cards = state.cards.filter((card) => card.item.id !== action.payload.id);
+        },
         clearAllCards: (state) => {
             state.cards = [];
         },
@@ -32,6 +35,6 @@ export const cardSelector = createSelector([cardState], (cardState: CardState) =
     return cardState.cards;
 });
 
-export const { addCard, clearAllCards } = cardSlice.actions;
+export const { addCard, clearAllCards, removeCard } = cardSlice.actions;
 
 export default cardSlice.reducer;

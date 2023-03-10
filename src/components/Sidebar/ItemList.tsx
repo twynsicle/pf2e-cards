@@ -15,7 +15,9 @@ import { useAppDispatch, useAppSelector } from '../../store/store';
 import { addCard, cardSelector, clearAllCards } from '../../store/features/cardSlice';
 import { Item, ItemCard, Filters } from '../../types';
 
-const ItemWrapper = styled.div``;
+const ItemWrapper = styled.div`
+    padding: 10px 0 0 0;
+`;
 
 const SearchWrapper = styled.div`
     padding: 10px;
@@ -45,7 +47,7 @@ const ItemLevel = styled.div`
 //TODO make max-height a calculation
 const ListWrapper = styled.div`
     //background-color: #555;
-    padding: 0 10px 10px 10px;
+    padding: 0px 10px 10px 10px;
     margin-bottom: 10px;
     height: 80vh;
     max-height: 70vh;
@@ -96,6 +98,8 @@ export const ItemList = () => {
         );
     }, []);
 
+    //TODO search is lowercase only...
+
     return (
         <ItemWrapper>
             <SearchWrapper>
@@ -111,7 +115,7 @@ export const ItemList = () => {
                             label="Consumable"
                             checked={filters.showConsumable}
                             onChange={(event, newValue) => {
-                                dispatch(setShowConsumables(newValue ?? false));
+                                dispatch(setShowConsumable(newValue ?? false));
                             }}
                         />
 
