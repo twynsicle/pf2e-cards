@@ -14,9 +14,14 @@ import {
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { addCard, cardSelector, clearAllCards } from '../../store/features/cardSlice';
 import { Item, ItemCard, Filters } from '../../types';
+import { Card } from '../Card/Card';
+import { displayPreviewSelector } from '../../store/features/settingsSlice';
+import { CardPreview } from './CardPreview/CardPreview';
 
 const ItemWrapper = styled.div`
     padding: 10px 0 0 0;
+    height: calc(100vh - 44px);
+    position: relative;
 `;
 
 const SearchWrapper = styled.div`
@@ -48,8 +53,6 @@ const ItemLevel = styled.div`
 const ListWrapper = styled.div`
     //background-color: #555;
     padding: 0px 10px 10px 10px;
-    margin-bottom: 10px;
-    height: 80vh;
     max-height: 70vh;
     overflow: hidden auto;
 `;
@@ -67,8 +70,10 @@ const ListItem = styled.div`
 export const ItemList = () => {
     const dispatch = useAppDispatch();
 
+    const [previewCard, setPreviewCard] = useState<Item | null>(null);
     const filters: Filters = useAppSelector((state) => filterSelector(state));
     const itemList: Item[] = useAppSelector((state) => filteredItemNameSelector(state));
+    const displayPreviewSetting = useAppSelector(displayPreviewSelector);
 
     //TODO show preview on hover
     //TODO show empty message when no resuls
@@ -91,17 +96,25 @@ export const ItemList = () => {
             return null;
         }
         return (
-            <ListItem data-is-focusable="true" onClick={() => addItem(item)}>
+            <ListItem
+                data-is-focusable="true"
+                onClick={() => addItem(item)}
+                onMouseEnter={() => {
+                    setPreviewCard(item);
+                }}
+                onMouseLeave={() => {
+                    setPreviewCard(null);
+                }}
+            >
                 <span>{item?.name}</span>
                 <span>{item?.level}</span>
             </ListItem>
         );
     }, []);
 
-    //TODO search is lowercase only...
-
     return (
         <ItemWrapper>
+            <CardPreview display={Boolean(previewCard) && displayPreviewSetting} item={previewCard} />
             <SearchWrapper>
                 <SearchBox
                     placeholder="Filter items"
@@ -149,7 +162,11 @@ export const ItemList = () => {
                     <List items={itemList} onRenderCell={onRenderCell} onShouldVirtualize={() => false} />
                 </FocusZone>
             </ListWrapper>
-            <DefaultButton text="Clear all" onClick={clearCards}></DefaultButton>
+            <DefaultButton
+                style={{ width: 'calc(100% - 20px)', margin: '0 10px', position: 'absolute', bottom: '10px' }}
+                text="Clear all"
+                onClick={clearCards}
+            ></DefaultButton>
         </ItemWrapper>
     );
 };

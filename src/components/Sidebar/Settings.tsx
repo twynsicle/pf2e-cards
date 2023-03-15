@@ -1,20 +1,30 @@
-import { TextField } from '@fluentui/react';
+import { Checkbox, TextField } from '@fluentui/react';
 import { useAppDispatch, useAppSelector } from '../../store/store';
-import { borderRadiusSelector, setBorderRadius } from '../../store/features/settingsSlice';
+import {
+    borderRadiusSelector,
+    displayPreviewSelector,
+    setBorderRadius,
+    setDisplayPreview,
+} from '../../store/features/settingsSlice';
 import styled from '@emotion/styled';
+import { setShowConsumable } from '../../store/features/itemSlice';
+import React from 'react';
 
 // calc the vh
 const SettingsWrapper = styled.div`
     padding: 10px 10px 10px 10px;
     position: relative;
     height: 95vh;
+
+    .ms-Checkbox {
+        margin: 15px 0 0 0;
+    }
 `;
 
 const LegalNotice = styled.div`
     position: absolute;
     bottom: 0;
     font-size: 12px;
-    //font-style: italic;
     line-height: 14px;
     text-align: center;
     color: #888;
@@ -25,6 +35,7 @@ export const Settings = () => {
     const dispatch = useAppDispatch();
 
     const borderRadius = useAppSelector(borderRadiusSelector);
+    const displayPreview = useAppSelector(displayPreviewSelector);
 
     return (
         <SettingsWrapper>
@@ -32,8 +43,14 @@ export const Settings = () => {
                 label="Border Radius (mm)"
                 value={borderRadius}
                 onChange={(event, newValue) => {
-                    console.log('dispatch');
                     dispatch(setBorderRadius(newValue));
+                }}
+            />
+            <Checkbox
+                label="Display Card Preview"
+                checked={displayPreview}
+                onChange={(event, newValue) => {
+                    dispatch(setDisplayPreview(newValue || false));
                 }}
             />
             <LegalNotice>

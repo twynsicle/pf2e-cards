@@ -14,13 +14,42 @@ function parseDescription(description) {
         return `<span class="pf2-icon">${type} </span>`;
     });
     // Replace [[/r {3d6}[acid]]]{3d6 acid damage}
-    parsedDescription = parsedDescription.replace(/\[\[\/r \{\w+}\[[\w,]+]]]\{([\w ]+)}/gm, (_, damage) => {
+    parsedDescription = parsedDescription.replace(/\[\[\/r \{[\w+]+}\[[\w,]+]]]\{([\w ]+)}/gm, (_, damage) => {
         return damage;
     });
+    // Replace [[/r 1[cold]]]{1 cold splash damage
+    parsedDescription = parsedDescription.replace(/\[\[\/r \d+\[\w+]]]\{([\w ]+)}/gm, (_, damage) => {
+        return `deals ${damage}`;
+    });
+    // Replace [[/r 1d4 #rounds]]{1d4 rounds}
+    parsedDescription = parsedDescription.replace(/\[\[\/r ([\w+]+) #rounds]]\{([\w+ ]+)}/gm, (_, roll, text) => {
+        return text;
+    });
     // Replace [[/r {3d6}[persistent,acid]]]
-    parsedDescription = parsedDescription.replace(/\[\[\/r \{(\w+)}\[[\w,]+]]]/gm, (_, roll) => {
+    parsedDescription = parsedDescription.replace(/\[\[\/r \{([\w+]+)}\[[\w,]+]]]/gm, (_, roll) => {
         return roll;
     });
+    // Replace [[/r 1d20+30 #Counteract]]{+30}
+    // Replace [[/r {1d20+28} #Twilight Lantern (Major)]]{+28}
+    // Replace [[/r {1d20+31}#Counteract Check]]{+31}
+    parsedDescription = parsedDescription.replace(/\[\[\/r {?[\w+]+}? ?#[\w() ]+]]\{([\w+ ]+)}/gm, (_, roll) => {
+        return roll;
+    });
+    // Replace [[/r 1d4]]
+    parsedDescription = parsedDescription.replace(/\[\[\/r ([\w+]+)]]/gm, (_, roll) => {
+        return roll;
+    });
+    // Replace [[/r 1d10 #Days to Rebuild Body]]
+    parsedDescription = parsedDescription.replace(/\[\[\/r (\w+) ?#[\w() ]+]]/gm, (_, roll) => {
+        return roll;
+    });
+    // Replace @Localize[PF2E.PersistentDamage.Bleed1d6.success]
+    parsedDescription = parsedDescription.replace(
+        /@Localize\[PF2E\.PersistentDamage\.Bleed([\w]+)\.success]/gm,
+        (_, roll) => {
+            return `${roll} persistent bleed damage`;
+        }
+    );
     // @UUID[Compendium.pf2e.spells-srd.Detect Magic]{Detect Magic}
     parsedDescription = parsedDescription.replace(/@UUID\[[\w\-. ]*]\{([\w ]*)}/gm, (_, name) => {
         return name;
@@ -29,16 +58,13 @@ function parseDescription(description) {
     parsedDescription = parsedDescription.replace(/\{\w+}\[\w+]\{(.*)}/gm, (_, damage) => {
         return `${damage}`;
     });
+    // replace @Template[type:line|distance:120|width:10]{120-foot lines}
+    parsedDescription = parsedDescription.replace(/@Template\[[\w:|]+]{([\w+\- ]+)}/gm, (_, text) => {
+        return text;
+    });
     // replace @Template[type:emanation|distance:20]
     parsedDescription = parsedDescription.replace(/@Template\[type:(\w+)\|distance:(\w+)]/gm, (_, type, distance) => {
         return `${distance}-foot ${type}`;
-    });
-    // @Check[type:flat|dc:5]
-    parsedDescription = parsedDescription.replace(/@Check\[type:([a-z]+)\|dc:(\d+)]/gm, (_, type, dc) => {
-        // TODO will any of this conflict with the one below - make it more general
-        // TODO save vs check - check the type?
-        // const typeCapitalised = `${type.charAt(0).toUpperCase()}${type.slice(1)}`;
-        return `DC ${dc} ${type}`;
     });
     // replace @Check[type:fortitude|dc:25|basic:true]
     parsedDescription = parsedDescription.replace(
@@ -49,6 +75,24 @@ function parseDescription(description) {
             return `DC ${dc} ${basicText}${type}`;
         }
     );
+    // replace @Check[type:flat|dc:5]
+    // replace @Check[type:fortitude|dc:28|name:Greater Thunderstone|showDC:all]
+    // replace @Check[type:will|dc:24|name:Dazzling Bismuth Leopard|traits:uncommon,visual|showDC:all]
+    parsedDescription = parsedDescription.replace(/@Check\[type:(\w+)\|dc:(\w+)\|?[|\w:, \-]*]/gm, (_, type, dc) => {
+        // TODO will any of this conflict with the one below - make it more general
+        // TODO save vs check - check the type?
+        // const typeCapitalised = `${type.charAt(0).toUpperCase()}${type.slice(1)}`;
+        return `DC ${dc} ${type} check`;
+    });
+    // replace @Check[type:intimdation]
+    parsedDescription = parsedDescription.replace(/@Check\[type:(\w+)]/gm, (_, type) => {
+        return type;
+    });
+    // replace @UUID[Compendium.pf2e.spells-srd.Lightning Bolt]{Lightning Bolt}
+    // replace @UUID[Compendium.pf2e.conditionitems.Flat-Footed]{Flat-Footed}
+    parsedDescription = parsedDescription.replace(/@UUID\[Compendium[\w.\- ]+]\{([\w\- +]+)}/gm, (_, text) => {
+        return text;
+    });
     // remove @UUID[Compendium...
     parsedDescription = parsedDescription.replace(/(@UUID\[Compendium.*]\{.*})/gm, '');
     // remove Craft requirements
@@ -108,7 +152,7 @@ fs.readFile('input.json', 'utf8', (err, data) => {
         const consumable = item.system.traits?.value.includes('consumable');
 
         try {
-            output.push({
+            const processedItem = {
                 id: item._id,
                 name: item.name,
                 level: Number(item.system.level.value),
@@ -121,7 +165,14 @@ fs.readFile('input.json', 'utf8', (err, data) => {
                 consumable: consumable,
                 price: calculatePrice(item.system.price?.value),
                 source: item.system.source.value,
-            });
+            };
+            output.push(processedItem);
+            if (processedItem.description.indexOf('[[/r') > -1) {
+                console.log(item.name);
+            }
+            if (processedItem.description.indexOf('@') > -1) {
+                console.log(item.name);
+            }
         } catch {
             console.log(item.name);
         }

@@ -4,6 +4,7 @@ import { ItemCard } from '../../types';
 import { useAppSelector } from '../../store/store';
 import { cardSelector } from '../../store/features/cardSlice';
 import { Card } from '../Card/Card';
+import { DeletableCard } from '../Card/DeletableCard';
 
 const GridWrapper = styled.div`
     padding: 20px;
@@ -27,7 +28,7 @@ export const CardList = () => {
         <GridWrapper>
             {/*<Stack horizontal wrap={true} tokens={{ childrenGap: 0 }}>*/}
             {cards.map((card: ItemCard, index: number) => (
-                <Card card={card} key={`${index}-${card.item.id}`} />
+                <DeletableCard card={card} key={`${index}-${card.item.id}`} />
             ))}
             {/*</Stack>*/}
         </GridWrapper>

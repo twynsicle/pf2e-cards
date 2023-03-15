@@ -46,7 +46,7 @@ export const itemSlice = createSlice({
 const itemsState = (state: RootState) => state.items;
 
 function filterItem(item: Item, filterOptions: Filters) {
-    if (!item.name.toLowerCase().startsWith(filterOptions.searchTerm)) {
+    if (!item.name.toLowerCase().startsWith(filterOptions.searchTerm.toLowerCase())) {
         return false;
     }
     if (item.level > filterOptions.levelUpper || item.level < filterOptions.levelLower) {

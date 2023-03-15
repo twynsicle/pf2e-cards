@@ -1,0 +1,50 @@
+import './Card.css';
+import { ItemCard } from '../../types';
+
+export interface CardContentProps {
+    card: ItemCard;
+}
+
+export interface TraitProps {
+    name: string;
+}
+
+const Trait = (props: TraitProps) => {
+    if (props.name.toLowerCase() === 'consumable') {
+        return null;
+    }
+    return <span className="trait">{props.name} </span>;
+};
+
+//TODO do i need to include damage for mundane and magical weapons?
+
+export const CardContent = (props: CardContentProps) => {
+    const item = props.card.item;
+
+    return (
+        <>
+            <p className="header">
+                <span className="name"> {item.name} </span>
+                {/*<span className="level"> {item.level} </span>*/}
+            </p>
+
+            <div className="description" dangerouslySetInnerHTML={{ __html: item.description }} />
+
+            {item.consumable ? <p className="is-consumable">Consumable</p> : <p className="price">{item.price}</p>}
+
+            <p className="properties">
+                <span>Rarity: </span>
+                <span>{item.rarity}; </span>
+                <span>Usage: </span>
+                <span>{item.usage}; </span>
+                <span>Bulk: </span>
+                <span>{item.weight}</span>
+            </p>
+            <p className="traits">
+                {item.traits.map((trait: string, index: number) => (
+                    <Trait name={trait} key={`${item.id}-${index}`} />
+                ))}
+            </p>
+        </>
+    );
+};
