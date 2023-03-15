@@ -20,7 +20,7 @@ export const DeletableCard = (props: DeletableCardProps) => {
     };
 
     function removeCardHandler() {
-        dispatch(removeCard(props.card.item));
+        dispatch(removeCard(props.card.id));
     }
 
     return (

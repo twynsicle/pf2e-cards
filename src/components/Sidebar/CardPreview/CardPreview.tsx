@@ -2,6 +2,7 @@ import { Item } from '../../../types';
 import { Card } from '../../Card/Card';
 import React from 'react';
 import styled from '@emotion/styled';
+import uuid from 'react-uuid';
 
 const CardPreviewStyled = styled.div`
     position: absolute;
@@ -20,6 +21,7 @@ export const CardPreview = (props: CardPreviewProps) => {
     }
 
     const wrappedItem = {
+        id: uuid(),
         item: props.item,
     };
 

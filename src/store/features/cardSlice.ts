@@ -1,6 +1,7 @@
 import { RootState } from '../store';
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ItemCard, Item } from '../../types';
+import uuid from 'react-uuid';
 
 export interface CardState {
     cards: ItemCard[];
@@ -16,12 +17,12 @@ export const cardSlice = createSlice({
     reducers: {
         addCard: (state, action: PayloadAction<Item>) => {
             state.cards.push({
+                id: uuid(),
                 item: action.payload,
             });
-            // state.cards = [...state.cards, { item: action.payload }];
         },
-        removeCard: (state, action: PayloadAction<Item>) => {
-            state.cards = state.cards.filter((card) => card.item.id !== action.payload.id);
+        removeCard: (state, action: PayloadAction<string>) => {
+            state.cards = state.cards.filter((card) => card.id !== action.payload);
         },
         clearAllCards: (state) => {
             state.cards = [];

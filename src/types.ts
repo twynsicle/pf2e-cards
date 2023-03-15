@@ -8,12 +8,13 @@ export interface Item {
     weight: string;
     description: string;
     type: string;
-    price?: string;
+    price?: string | number; //TODO this should only be a string, but we're refactoring this anyway
     source: string;
     consumable: boolean;
 }
 
 export interface ItemCard {
+    id: string;
     item: Item;
 }
 
