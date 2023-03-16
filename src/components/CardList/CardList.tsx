@@ -24,6 +24,10 @@ export const CardList = () => {
     //TODO group into groups of 6
     //or 4 depending on paper size?
 
+    //TODO where do i recommend defaulting to portrait
+
+    //TODO should be left aligned when printing if someone doesn't want to print a full sheet
+
     return (
         <GridWrapper>
             {/*<Stack horizontal wrap={true} tokens={{ childrenGap: 0 }}>*/}

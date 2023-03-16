@@ -41,31 +41,12 @@
     flex-direction: column;
 }
 
-.close {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 5;
-    color: #ccc;
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
-    text-align: center;
-    cursor: pointer;
-}
-.close:hover {
-    background-color: #ccc;
-    color: white;
-}
-
 .header {
     font-size: 20px;
-    margin: 0 0 10px;
+    margin: 0 0 7px;
+    height: 48px;
     /*padding-bottom: 10px;*/
     /*border-bottom: 1px solid #555;*/
-}
-
-.name {
 }
 
 .description {
@@ -73,13 +54,35 @@
     line-height: 15px;
 }
 
-.description p {
-    margin: 3px 0;
-}
-
 .description .pf2-icon {
     font-family: "Pathfinder_Icons";
-    font-size: 1.2rem;
+    font-size: 16px;
+}
+
+/*.description.large {*/
+/*    font-size: 13px;*/
+/*    line-height: 14px;*/
+/*}*/
+
+/*.description.large .pf2-icon {*/
+/*    font-size: 16px;*/
+/*}*/
+
+.description.small .pf2-icon {
+    font-size: 14px;
+}
+
+.description.small {
+    font-size: 10px;
+    line-height: 11px;
+}
+
+.description.small .pf2-icon {
+    font-size: 14px;
+}
+
+.description p {
+    margin: 3px 0;
 }
 
 .is-consumable {
@@ -100,9 +103,19 @@
 .properties {
     text-align: center;
     border-top: 1px solid #555;
-    padding-top: 10px;
-    line-height: 15px;
+    padding-top: 5px;
+    line-height: 12px;
     margin: 0;
+}
+
+.rarity {
+    text-transform: capitalize;
+}
+.usage {
+    text-transform: capitalize;
+}
+.bulk {
+    text-transform: capitalize;
 }
 
 .traits {
@@ -110,6 +123,7 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
+    line-height: 12px;
 }
 
 .trait {

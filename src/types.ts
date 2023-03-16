@@ -5,7 +5,7 @@ export interface Item {
     traits: string[];
     rarity: string;
     usage: string;
-    weight: string;
+    weight: string; //TODO should be bulk
     description: string;
     type: string;
     price?: string | number; //TODO this should only be a string, but we're refactoring this anyway

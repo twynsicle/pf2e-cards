@@ -6,6 +6,7 @@ import uuid from 'react-uuid';
 
 const CardPreviewStyled = styled.div`
     position: absolute;
+    z-index: 2;
     top: 20%;
     left: -300px;
 `;

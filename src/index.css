@@ -59,6 +59,49 @@ body {
         /*height: 336px;*/
     }
 
+    .header {
+        font-size: 17px;
+        height: 40px;
+        /*margin-bottom: 5px;*/
+    }
+
+    .description {
+        line-height: 11px;
+    }
+
+    .description .pf2-icon {
+        font-size: 13px;
+    }
+
+    /*.description.large {*/
+    /*    font-size: 11px;*/
+    /*    line-height: 15px;*/
+    /*}*/
+
+    /*.description.large .pf2-icon {*/
+    /*    font-size: 16px;*/
+    /*}*/
+
+    .description.small {
+        font-size: 7px;
+        line-height: 8px;
+    }
+
+    .description.small .pf2-icon {
+        font-size: 9px;
+    }
+
+    .price {
+        font-size: 10px;
+    }
+
+    .properties {
+        line-height: 10px;
+    }
+    .traits {
+        line-height: 10px;
+    }
+
     .close {
         display: none;
     }
