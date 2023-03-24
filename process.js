@@ -131,7 +131,7 @@ fs.readFile('input.json', 'utf8', (err, data) => {
     let noDescription = 0;
 
     // process the values
-    jsonData.results.forEach((item) => {
+    jsonData.forEach((item) => {
         // if (!item.system.price) {
         //     return;
         // }

@@ -14,3 +14,4 @@
 * remove trivial items?
 * favicon
 * display of no value items (elixir of rejuvenation, etc)
+* SEO

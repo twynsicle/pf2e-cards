@@ -1,4 +1,4 @@
-name: process-items
+name: publish-site
 
 on:
   push:
@@ -6,12 +6,12 @@ on:
       - master
 
 jobs:
-  process-items:
+  publish-site:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           repository: foundryvtt/pf2e
           path: pf2e
@@ -21,8 +21,33 @@ jobs:
           jq --slurp 'map(.)' *.json > merged.json
         working-directory: pf2e/packs/data/equipment.db
 
-      - uses: actions/upload-artifact@v2
+      - name: Copy items to primary directory
+        run: |
+          cp pf2e/packs/data/equipment.db/merged.json input.json
+
+      - name: Process items
+        run: |
+          node .\process.js
+
+      - name: Install node modules
+        run: |
+          npm install
+
+      - name: Build
+        run: |
+          npm run build
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: build
+
+      - uses: actions/upload-artifact@v3
         with:
           name: items
-          path: pf2e/packs/data/equipment.db/merged.json
+          path: input.json
 
+      - uses: actions/upload-artifact@v3
+        with:
+          name: items
+          path: src/assets/output.json
