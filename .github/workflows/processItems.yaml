@@ -1,8 +1,9 @@
 name: process-items
 
-push:
-branches:
-  - master
+on:
+  push:
+    branches:
+      - master
 
 process-items:
   steps:
