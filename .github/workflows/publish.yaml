@@ -6,11 +6,9 @@ on:
       - master
 
 jobs:
-  publish-site:
+  process-items:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-
       - uses: actions/checkout@v3
         with:
           repository: foundryvtt/pf2e
@@ -29,6 +27,27 @@ jobs:
         run: |
           node process.js
 
+      - uses: actions/upload-artifact@v3
+        with:
+          name: items-merged
+          path: input.json
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: items-processed
+          path: src/assets/output.json
+
+  publish-site:
+    needs: [process-items]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/download-artifact@v3
+        with:
+          name: items-processed
+          path: src/assets
+
       - name: Install node modules
         run: |
           npm install
@@ -41,13 +60,3 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4
         with:
           folder: dist
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: items
-          path: input.json
-
-      - uses: actions/upload-artifact@v3
-        with:
-          name: items
-          path: src/assets/output.json
