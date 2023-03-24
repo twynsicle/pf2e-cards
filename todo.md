@@ -15,3 +15,5 @@
 * favicon
 * display of no value items (elixir of rejuvenation, etc)
 * SEO
+* mobile unfriendly warning
+* move output to public?
