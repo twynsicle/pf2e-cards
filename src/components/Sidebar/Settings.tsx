@@ -7,6 +7,12 @@ import {
     setDisplayPreview,
     setCardsPerPage,
     cardsPerPageSelector,
+    displayPurchaseValueSelector,
+    displaySaleValueSelector,
+    playerCountSelector,
+    setDisplayPurchaseValue,
+    setDisplaySaleValue,
+    setPlayerCount,
 } from '../../store/features/settingsSlice';
 import styled from '@emotion/styled';
 import React from 'react';
@@ -18,8 +24,13 @@ const SettingsWrapper = styled.div`
     height: 95vh;
 
     .ms-Checkbox {
-        margin: 15px 0 0 0;
+        margin: 5px 0 0 0;
     }
+`;
+
+const SettingHeader = styled.h4`
+    color: black;
+    margin: 20px 0 0;
 `;
 
 const LegalNotice = styled.div`
@@ -32,23 +43,33 @@ const LegalNotice = styled.div`
     padding-right: 10px;
 `;
 
+function ensureNumber(value: string, defaultValue: string) {
+    if (!value || value === '0' || isNaN(Number(value))) {
+        return defaultValue;
+    }
+    return value;
+}
+
 export const Settings = () => {
     const dispatch = useAppDispatch();
 
     const borderRadius = useAppSelector(borderRadiusSelector);
-    const displayPreview = useAppSelector(displayPreviewSelector);
     const cardsPerPage = useAppSelector(cardsPerPageSelector);
+
+    const displayPurchaseValue = useAppSelector(displayPurchaseValueSelector);
+    const displaySaleValue = useAppSelector(displaySaleValueSelector);
+    const playerCount = useAppSelector(playerCountSelector);
+
+    const displayPreview = useAppSelector(displayPreviewSelector);
 
     return (
         <SettingsWrapper>
+            <SettingHeader>Print settings</SettingHeader>
             <TextField
                 label="Cards per page"
                 value={cardsPerPage}
                 onChange={(event, newValue) => {
-                    let newCardsPerPage = newValue || '8';
-                    if (newCardsPerPage === '0') {
-                        newCardsPerPage = '8';
-                    }
+                    let newCardsPerPage = ensureNumber(newValue ?? '', '8');
                     dispatch(setCardsPerPage(newCardsPerPage));
                 }}
             />
@@ -59,6 +80,32 @@ export const Settings = () => {
                     dispatch(setBorderRadius(newValue));
                 }}
             />
+
+            <SettingHeader>Gold Value</SettingHeader>
+            <Checkbox
+                label="Display purchase value"
+                checked={displayPurchaseValue}
+                onChange={(event, newValue) => {
+                    dispatch(setDisplayPurchaseValue(newValue || false));
+                }}
+            />
+            <Checkbox
+                label="Display sale value per player"
+                checked={displaySaleValue}
+                onChange={(event, newValue) => {
+                    dispatch(setDisplaySaleValue(newValue || false));
+                }}
+            />
+            <TextField
+                label="Number of players"
+                value={playerCount}
+                onChange={(event, newValue) => {
+                    let newPlayerCount = ensureNumber(newValue ?? '', '4');
+                    dispatch(setPlayerCount(newPlayerCount));
+                }}
+            />
+
+            <SettingHeader>Misc</SettingHeader>
             <Checkbox
                 label="Display Card Preview"
                 checked={displayPreview}
@@ -66,6 +113,7 @@ export const Settings = () => {
                     dispatch(setDisplayPreview(newValue || false));
                 }}
             />
+
             <LegalNotice>
                 <p>
                     This website uses trademarks and/or copyrights owned by Paizo Inc., which are used under Paizo's

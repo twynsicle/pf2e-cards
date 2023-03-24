@@ -56,8 +56,13 @@ body {
 
     .header {
         font-size: 17px;
-        height: 40px;
+        height: 35px;
         /*margin-bottom: 5px;*/
+    }
+    .grade {
+        font-size: 13px;
+        line-height: 13px;
+        margin: 0;
     }
 
     .description {
@@ -86,7 +91,7 @@ body {
         font-size: 9px;
     }
 
-    .price {
+    .price-group {
         font-size: 10px;
     }
 
@@ -94,7 +99,7 @@ body {
         line-height: 10px;
     }
     .traits {
-        line-height: 10px;
+        line-height: 12px;
     }
 
     .close {

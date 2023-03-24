@@ -5,12 +5,18 @@ export interface SettingsState {
     borderRadius: string;
     displayPreview: boolean;
     cardsPerPage: string;
+    displayPurchaseValue: boolean;
+    displaySaleValue: boolean;
+    playerCount: string;
 }
 
 const initialState: SettingsState = {
     borderRadius: '0',
     displayPreview: true,
     cardsPerPage: '8',
+    displayPurchaseValue: true,
+    displaySaleValue: true,
+    playerCount: '4',
 };
 
 export const settingsSlice = createSlice({
@@ -24,11 +30,20 @@ export const settingsSlice = createSlice({
             state.borderRadius = action.payload;
             console.log(`borderRadius ${action.payload}`);
         },
-        setDisplayPreview: (state, action: PayloadAction<boolean>) => {
-            state.displayPreview = action.payload;
-        },
         setCardsPerPage: (state, action: PayloadAction<string>) => {
             state.cardsPerPage = action.payload;
+        },
+        setDisplayPurchaseValue: (state, action: PayloadAction<boolean>) => {
+            state.displayPurchaseValue = action.payload;
+        },
+        setDisplaySaleValue: (state, action: PayloadAction<boolean>) => {
+            state.displaySaleValue = action.payload;
+        },
+        setPlayerCount: (state, action: PayloadAction<string>) => {
+            state.playerCount = action.payload;
+        },
+        setDisplayPreview: (state, action: PayloadAction<boolean>) => {
+            state.displayPreview = action.payload;
         },
     },
 });
@@ -39,14 +54,33 @@ export const borderRadiusSelector = createSelector([settingsState], (settingsSta
     return settingsState.borderRadius;
 });
 
-export const displayPreviewSelector = createSelector([settingsState], (settingsState: SettingsState) => {
-    return settingsState.displayPreview;
-});
-
 export const cardsPerPageSelector = createSelector([settingsState], (settingsState: SettingsState) => {
     return settingsState.cardsPerPage;
 });
 
-export const { setBorderRadius, setDisplayPreview, setCardsPerPage } = settingsSlice.actions;
+export const displayPurchaseValueSelector = createSelector([settingsState], (settingsState: SettingsState) => {
+    return settingsState.displayPurchaseValue;
+});
+
+export const displaySaleValueSelector = createSelector([settingsState], (settingsState: SettingsState) => {
+    return settingsState.displaySaleValue;
+});
+
+export const playerCountSelector = createSelector([settingsState], (settingsState: SettingsState) => {
+    return settingsState.playerCount;
+});
+
+export const displayPreviewSelector = createSelector([settingsState], (settingsState: SettingsState) => {
+    return settingsState.displayPreview;
+});
+
+export const {
+    setBorderRadius,
+    setDisplayPreview,
+    setCardsPerPage,
+    setDisplayPurchaseValue,
+    setDisplaySaleValue,
+    setPlayerCount,
+} = settingsSlice.actions;
 
 export default settingsSlice.reducer;

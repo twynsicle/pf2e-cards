@@ -102,7 +102,7 @@ function parseDescription(description) {
 
 function calculatePrice(values) {
     if (!values) {
-        return 'no value';
+        return 0;
     }
 
     let total = 0;
@@ -117,15 +117,6 @@ function calculatePrice(values) {
     }
     if (values['cp']) {
         total += values['cp'] / 100;
-    }
-    if (total % 1 === 0) {
-        return `${total}gp`;
-    }
-    if (total % 0.1 === 0) {
-        return `${total / 10}sp`;
-    }
-    if (total % 0.01 === 0) {
-        return `${total / 100}cp`;
     }
     return total;
 }

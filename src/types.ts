@@ -8,7 +8,7 @@ export interface Item {
     weight: string; //TODO should be bulk
     description: string;
     type: string;
-    price?: string | number; //TODO this should only be a string, but we're refactoring this anyway
+    price?: number;
     source: string;
     consumable: boolean;
 }
