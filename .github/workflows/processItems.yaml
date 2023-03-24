@@ -16,7 +16,7 @@ jobs:
           repository: foundryvtt/pf2e
           path: pf2e
 
-      - bash: |
+      - run: |
           jq --slurp 'map(.)' *.json > merged.json
         working-directory: pf2e/packs/data/equipment.db
 
