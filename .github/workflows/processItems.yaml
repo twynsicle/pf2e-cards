@@ -1,0 +1,24 @@
+name: process-items
+
+push:
+branches:
+  - master
+
+process-items:
+  steps:
+    - uses: actions/checkout@v2
+
+    - uses: actions/checkout@v2
+      with:
+        repository: foundryvtt/pf2e
+        path: pf2e
+
+    - bash: |
+        jq --slurp 'map(.)' *.json > merged.json
+      working-directory: pf2e/packs/data/equipment.db
+
+    - use: actions/upload-artifact@v2
+      with:
+        name: items
+        path: pf2e/packs/data/equipment.db/merged.json
+
