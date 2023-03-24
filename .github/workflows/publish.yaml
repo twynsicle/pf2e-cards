@@ -27,7 +27,7 @@ jobs:
 
       - name: Process items
         run: |
-          node .\process.js
+          node process.js
 
       - name: Install node modules
         run: |
