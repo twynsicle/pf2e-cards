@@ -5,9 +5,10 @@ import {
     displayPreviewSelector,
     setBorderRadius,
     setDisplayPreview,
+    setCardsPerPage,
+    cardsPerPageSelector,
 } from '../../store/features/settingsSlice';
 import styled from '@emotion/styled';
-import { setShowConsumable } from '../../store/features/itemSlice';
 import React from 'react';
 
 // calc the vh
@@ -36,9 +37,21 @@ export const Settings = () => {
 
     const borderRadius = useAppSelector(borderRadiusSelector);
     const displayPreview = useAppSelector(displayPreviewSelector);
+    const cardsPerPage = useAppSelector(cardsPerPageSelector);
 
     return (
         <SettingsWrapper>
+            <TextField
+                label="Cards per page"
+                value={cardsPerPage}
+                onChange={(event, newValue) => {
+                    let newCardsPerPage = newValue || '8';
+                    if (newCardsPerPage === '0') {
+                        newCardsPerPage = '8';
+                    }
+                    dispatch(setCardsPerPage(newCardsPerPage));
+                }}
+            />
             <TextField
                 label="Border Radius (mm)"
                 value={borderRadius}

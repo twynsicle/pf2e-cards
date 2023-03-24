@@ -5,36 +5,61 @@ import { useAppSelector } from '../../store/store';
 import { cardSelector } from '../../store/features/cardSlice';
 import { Card } from '../Card/Card';
 import { DeletableCard } from '../Card/DeletableCard';
+import { cardsPerPageSelector } from '../../store/features/settingsSlice';
 
-const GridWrapper = styled.div`
+const CardWrapper = styled.div`
     padding: 20px;
     height: 100vh;
     box-sizing: border-box;
     overflow-y: scroll;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    flex-wrap: wrap;
-    align-content: flex-start;
+
+    @media print {
+        overflow: visible;
+    }
 `;
 
+const CardGroup = styled.div`
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 295px);
+    grid-template-rows: repeat(auto-fill, 410px);
+
+    column-gap: 10px;
+    row-gap: 10px;
+    margin-bottom: 10px;
+
+    @media print {
+        grid-template-columns: repeat(auto-fill, 64mm);
+        grid-template-rows: repeat(auto-fill, 89mm);
+        column-gap: 0;
+        row-gap: 0;
+
+        page-break-before: always;
+    }
+`;
+
+function groupedCardList(cards: ItemCard[], chunkSize: number) {
+    const groupedCards = [];
+    for (let i = 0; i < cards.length; i += chunkSize) {
+        groupedCards.push(cards.slice(i, i + chunkSize));
+    }
+    return groupedCards;
+}
+
 export const CardList = () => {
+    const cardsPerPage = useAppSelector(cardsPerPageSelector);
     const cards: ItemCard[] = useAppSelector((state) => cardSelector(state));
 
-    //TODO group into groups of 6
-    //or 4 depending on paper size?
-
-    //TODO where do i recommend defaulting to portrait
-
-    //TODO should be left aligned when printing if someone doesn't want to print a full sheet
+    const groupedCards: ItemCard[][] = groupedCardList(cards, Number(cardsPerPage));
 
     return (
-        <GridWrapper>
-            {/*<Stack horizontal wrap={true} tokens={{ childrenGap: 0 }}>*/}
-            {cards.map((card: ItemCard, index: number) => (
-                <DeletableCard card={card} key={`${index}-${card.item.id}`} />
+        <CardWrapper>
+            {groupedCards.map((group: ItemCard[], index: number) => (
+                <CardGroup key={index}>
+                    {group.map((card: ItemCard, index: number) => (
+                        <DeletableCard card={card} key={`${index}-${card.item.id}`} />
+                    ))}
+                </CardGroup>
             ))}
-            {/*</Stack>*/}
-        </GridWrapper>
+        </CardWrapper>
     );
 };

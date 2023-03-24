@@ -28,11 +28,6 @@ body {
     box-sizing: border-box;
 }
 
-/*@font-face {*/
-/*  font-family: 'Pathfinder2eActions';*/
-/*  src: local('Pathfinder2eActions'), url(public/Pathfinder2eActions.tff) format('tff');*/
-/*}*/
-
 *::-webkit-scrollbar {
     width: 7px;
 }

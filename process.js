@@ -136,6 +136,8 @@ fs.readFile('input.json', 'utf8', (err, data) => {
     let jsonData = JSON.parse(data);
 
     let output = [];
+    let usages = {};
+    let noDescription = 0;
 
     // process the values
     jsonData.results.forEach((item) => {
@@ -173,10 +175,21 @@ fs.readFile('input.json', 'utf8', (err, data) => {
             if (processedItem.description.indexOf('@') > -1) {
                 console.log(item.name);
             }
+            if (processedItem.description.length === 0) {
+                noDescription += 1;
+            }
+            // if (usages[processedItem.usage]) {
+            //     usages[processedItem.usage] += 1;
+            // } else {
+            //     usages[processedItem.usage] = 1;
+            // }
         } catch {
             console.log(item.name);
         }
     });
+
+    console.log(`No description: ${noDescription}`);
+    // console.log(usages);
 
     // write the file back to the file system
     fs.writeFile('src/assets/output.json', JSON.stringify(output), 'utf8', (err) => {

@@ -4,11 +4,13 @@ import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 export interface SettingsState {
     borderRadius: string;
     displayPreview: boolean;
+    cardsPerPage: string;
 }
 
 const initialState: SettingsState = {
     borderRadius: '0',
     displayPreview: true,
+    cardsPerPage: '8',
 };
 
 export const settingsSlice = createSlice({
@@ -25,6 +27,9 @@ export const settingsSlice = createSlice({
         setDisplayPreview: (state, action: PayloadAction<boolean>) => {
             state.displayPreview = action.payload;
         },
+        setCardsPerPage: (state, action: PayloadAction<string>) => {
+            state.cardsPerPage = action.payload;
+        },
     },
 });
 
@@ -38,6 +43,10 @@ export const displayPreviewSelector = createSelector([settingsState], (settingsS
     return settingsState.displayPreview;
 });
 
-export const { setBorderRadius, setDisplayPreview } = settingsSlice.actions;
+export const cardsPerPageSelector = createSelector([settingsState], (settingsState: SettingsState) => {
+    return settingsState.cardsPerPage;
+});
+
+export const { setBorderRadius, setDisplayPreview, setCardsPerPage } = settingsSlice.actions;
 
 export default settingsSlice.reducer;
