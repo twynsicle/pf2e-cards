@@ -1,24 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/pf2e-cards/vite.svg" />
+<html lang='en'>
+<head>
+    <meta charset='UTF-8' />
+    <link rel='icon' type='image/svg+xml' href='/vite.svg' />
     <link
-        rel="stylesheet"
-        href="https://res-1.cdn.office.net/files/fabric-cdn-prod_20221209.001/office-ui-fabric-core/11.1.0/css/fabric.min.css"
+        rel='stylesheet'
+        href='https://res-1.cdn.office.net/files/fabric-cdn-prod_20221209.001/office-ui-fabric-core/11.1.0/css/fabric.min.css'
     />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <style>
-          #root {
-              width: 100%;
-          }
-      </style>
+    <link rel='apple-touch-icon' sizes='180x180' href='/apple-touch-icon.png'>
+    <link rel='icon' type='image/png' sizes='32x32' href='data:image/png;base64,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'>
+    <link rel='icon' type='image/png' sizes='16x16' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAtpJREFUOE9tk11Ik2EUx3/PpjNFxYuJStMURbsJQyNGMiP1QgMTEpTMIvCLCRpCjkqnJGWgQpCFqSl1IdhNFxLeaR9vXdjHhSiIHzRwJGmKMqebbuyN58XFkF54Xp7Dc86P8/E/gmOfqqqngBrgkqoepMpnISIcwBQwKoRwhoaIoKGqqh7oAO4CBr9vDoSBsLCsUP8D4JE8QoiABpe/o+A3QLm0D7zv0OlNhIefZW5uDqfTiclkIiUlhbi4OOkyDlyXkCCgC7DLl8ODTwQCv9n3FNHX10dBQQEWiwWfz0d0dHRoNnYhxENxVPOSTFtV3ey67qDTP6a21kpnZycLCwukp6eTnZ19vF1eIEMCulwulz02Nhav5y2BwCb9z7aJiYnB7/dTUVFBYmLi8eCgbZeAz4qi5Mk03bvtgIXCog56enqYmZnBZrOxs7OD1+v9H+i9BDjHx8dNxcXF6EUbv9bOca3qKVarlaioKKqrq5mdnaW3t5e0tDQaGxtJSkoKZuCQgFVFUZK3trYoKvzO5qaR0isjlJWVERERgd1ul1PSbIfDQWRkJAMDA+Tm5krITwn46HK58puamhh8cRW/7wvVN5cwGAza+CYmJtjb26O0tBSj0UhmZiYbGxsMDQ0RHx8/JQFSPA9aWlooKSnEfH6Cbz/M2GzPOTw8JCMjg5qaGtra2rQerK2t0dzcTF1dnczgngScBFaWl5dP1NfXM/Kym4SED8x8zaW7u4f19XWt3vLycu1UVVUxPDyM2WzeB9KDQrov5Tk2Nsbg4CDt7be5mB+LTn+BlZVVTUDJyclMTk5q2pienpZjbhVC9AUBOuAVcENCpAKldC2WM+TlXSYr6zRut1srReqioaFhFKgVQqihyyTvrUDn4uJiVH9/P4qiEAgENJhsZGVl5Z7Vau3Q6XRPZPC/ZQqVmaqqCcAtuc7b29up8/PzeDweR05OzpTRaHwthPgT6v8XvVc1ZPESO+sAAAAASUVORK5CYII='>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+    <style>
+        #root {
+            width: 100%;
+        }
+    </style>
     <title>Pf2e Cards</title>
-    <script type="module" crossorigin src="/pf2e-cards/assets/index-889a0379.js"></script>
-    <link rel="stylesheet" href="/pf2e-cards/assets/index-cec96b86.css">
-  </head>
-  <body>
-    <div id="root"></div>
-    
-  </body>
+  <script type="module" crossorigin src="/pf2e-cards/assets/index-70a6dd7e.js"></script>
+  <link rel="stylesheet" href="/pf2e-cards/assets/index-dbbe6bda.css">
+</head>
+<body>
+<div id='root'></div>
+
+</body>
 </html>
