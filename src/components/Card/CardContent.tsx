@@ -79,7 +79,7 @@ export const CardContent = (props: CardContentProps) => {
         fontSize = 'small';
     }
     if (description.length > 1200) {
-        description = description.slice(0, 1200);
+        // description = description.slice(0, 1200);
     }
     // if it's much bigger than this, we should clip the text and add an ellipsis
 
