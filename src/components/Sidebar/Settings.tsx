@@ -69,7 +69,7 @@ export const Settings = () => {
                 label="Cards per page"
                 value={cardsPerPage}
                 onChange={(event, newValue) => {
-                    let newCardsPerPage = ensureNumber(newValue ?? '', '8');
+                    const newCardsPerPage = ensureNumber(newValue ?? '', '8');
                     dispatch(setCardsPerPage(newCardsPerPage));
                 }}
             />
@@ -100,7 +100,7 @@ export const Settings = () => {
                 label="Number of players"
                 value={playerCount}
                 onChange={(event, newValue) => {
-                    let newPlayerCount = ensureNumber(newValue ?? '', '4');
+                    const newPlayerCount = ensureNumber(newValue ?? '', '4');
                     dispatch(setPlayerCount(newPlayerCount));
                 }}
             />

@@ -9,7 +9,7 @@
         "preview": "vite preview",
         "storybook": "start-storybook -p 6006",
         "build-storybook": "build-storybook",
-        "lint": "eslint ."
+        "lint": "tsc --noEmit && eslint src"
     },
     "dependencies": {
         "@emotion/react": "^11.10.5",

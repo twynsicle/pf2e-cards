@@ -37,17 +37,17 @@ function calculatePurchaseValue(price: number): string {
     // Round anything below a copper up to a copper
     let remainingPrice = Math.round(price * 100) / 100;
     let result = '';
-    let gp = Math.floor(remainingPrice);
+    const gp = Math.floor(remainingPrice);
     if (gp > 0) {
         result += `${gp}gp`;
         remainingPrice -= gp;
     }
-    let sp = Math.floor(remainingPrice * 10);
+    const sp = Math.floor(remainingPrice * 10);
     if (sp > 0) {
         result += ` ${sp}sp`;
         remainingPrice -= sp;
     }
-    let cp = remainingPrice * 10;
+    const cp = remainingPrice * 10;
     if (cp > 0) {
         result += ` ${cp}cp`;
         remainingPrice -= cp;
@@ -86,14 +86,14 @@ export const CardContent = (props: CardContentProps) => {
     let name = item.name;
     let grade = '';
     if (name.includes('(')) {
-        let nameParts = name.split('(');
+        const nameParts = name.split('(');
         name = nameParts[0];
         grade = `(${nameParts[1]}`;
     }
 
-    let itemPrice = item.price || 0;
-    let purchaseValue = calculatePurchaseValue(itemPrice);
-    let saleValue = calculatePurchaseValue(itemPrice / Number(playerCount) / 2);
+    const itemPrice = item.price || 0;
+    const purchaseValue = calculatePurchaseValue(itemPrice);
+    const saleValue = calculatePurchaseValue(itemPrice / Number(playerCount) / 2);
 
     return (
         <>

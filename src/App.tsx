@@ -46,7 +46,7 @@ const SidebarWrapper = styled.div`
 `;
 
 function App() {
-    let persistedStore = persistStore(store);
+    const persistedStore = persistStore(store);
 
     return (
         <>

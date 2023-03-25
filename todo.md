@@ -1,6 +1,4 @@
 # TODO
-* pipeline to pull data from foundry repo
-  * with ability to log cards that failed to convert
 * fix last couple of troublesome cards (beast guns)
 * find all of the TODOs in the code
 

@@ -6,7 +6,7 @@ import { CardContent } from './CardContent';
 import { removeCard } from '../../store/features/cardSlice';
 import styled from '@emotion/styled';
 
-export interface DeletableCardProps extends CardProps {}
+export type DeletableCardProps = CardProps
 
 const CloseIcon = styled.div`
     position: absolute;
