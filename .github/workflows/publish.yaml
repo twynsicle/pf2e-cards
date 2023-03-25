@@ -28,7 +28,7 @@ jobs:
 
       - name: Process items
         run: |
-          node process.js
+          node scripts/process.js
 
       - uses: actions/upload-artifact@v3
         with:
