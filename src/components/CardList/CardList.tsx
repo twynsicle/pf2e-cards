@@ -6,6 +6,7 @@ import { cardSelector } from '../../store/features/cardSlice';
 import { Card } from '../Card/Card';
 import { DeletableCard } from '../Card/DeletableCard';
 import { cardsPerPageSelector } from '../../store/features/settingsSlice';
+import { Landing } from '../Landing/Landing';
 
 const CardWrapper = styled.div`
     padding: 20px;
@@ -50,6 +51,10 @@ export const CardList = () => {
     const cards: ItemCard[] = useAppSelector((state) => cardSelector(state));
 
     const groupedCards: ItemCard[][] = groupedCardList(cards, Number(cardsPerPage));
+
+    if (!cards.length) {
+        return <Landing />;
+    }
 
     return (
         <CardWrapper>

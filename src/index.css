@@ -41,6 +41,12 @@ body {
     border-radius: 3px;
 }
 
+.logo {
+    height: 300px;
+    width: 300px;
+    opacity: 15%;
+}
+
 @media print {
     ::-webkit-scrollbar {
         display: none;

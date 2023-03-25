@@ -13,7 +13,7 @@ export interface SettingsState {
 const initialState: SettingsState = {
     borderRadius: '0',
     displayPreview: true,
-    cardsPerPage: '8',
+    cardsPerPage: '6',
     displayPurchaseValue: true,
     displaySaleValue: true,
     playerCount: '4',

@@ -31,6 +31,10 @@ const CardListWrapper = styled.div`
     float: left;
 
     box-sizing: border-box;
+
+    @media only screen and (max-width: 799px) {
+        width: 100%;
+    }
 `;
 
 const SidebarWrapper = styled.div`
@@ -43,6 +47,10 @@ const SidebarWrapper = styled.div`
     box-shadow: rgb(0, 0, 0, 0.22) 0 25.6px 57.6px 0, rgb(0, 0, 0, 0.18) 0 4.8px 14.4px;
 
     box-sizing: border-box;
+
+    @media only screen and (max-width: 799px) {
+        display: none;
+    }
 `;
 
 function App() {
