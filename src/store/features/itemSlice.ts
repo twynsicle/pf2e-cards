@@ -1,6 +1,6 @@
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import items from '../../assets/output.json';
+// import items from '../../../public/output.json';
 import { RootState } from '../store';
 import { Filters, Item } from '../../types';
 
@@ -10,7 +10,7 @@ export interface ItemState {
 }
 
 const initialState: ItemState = {
-    items: items,
+    items: [],
     filters: {
         searchTerm: '',
         showConsumable: true,
@@ -24,6 +24,9 @@ export const itemSlice = createSlice({
     name: 'item',
     initialState,
     reducers: {
+        setItems: (state, action: PayloadAction<Item[]>) => {
+            state.items = action.payload;
+        },
         setSearchTerm: (state, action: PayloadAction<string | undefined>) => {
             state.filters.searchTerm = action.payload ?? '';
         },
@@ -78,6 +81,7 @@ export const filterSelector = createSelector([itemState], (itemState: ItemState)
     return itemState.filters;
 });
 
-export const { setSearchTerm, setShowPermanent, setShowConsumable, setLevelLower, setLevelUpper } = itemSlice.actions;
+export const { setSearchTerm, setShowPermanent, setShowConsumable, setLevelLower, setLevelUpper, setItems } =
+    itemSlice.actions;
 
 export default itemSlice.reducer;

@@ -38,7 +38,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: items-processed
-          path: src/assets/output.json
+          path: public/items.json
 
   publish-site:
     needs: [process-items]

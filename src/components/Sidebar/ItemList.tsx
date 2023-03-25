@@ -10,6 +10,7 @@ import {
     setShowPermanent,
     setLevelLower,
     setLevelUpper,
+    setItems,
 } from '../../store/features/itemSlice';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { addCard, cardSelector, clearAllCards } from '../../store/features/cardSlice';
@@ -17,11 +18,17 @@ import { Item, ItemCard, Filters } from '../../types';
 import { Card } from '../Card/Card';
 import { displayPreviewSelector } from '../../store/features/settingsSlice';
 import { CardPreview } from './CardPreview/CardPreview';
+import { useGetItemsQuery } from '../../store/services/item';
 
 const ItemWrapper = styled.div`
     padding: 10px 0 0 0;
     height: calc(100vh - 44px);
     position: relative;
+`;
+
+const ErrorState = styled.div`
+    padding: 20px 10px 0;
+    color: black;
 `;
 
 const SearchWrapper = styled.div`
@@ -57,6 +64,11 @@ const ListWrapper = styled.div`
     overflow: hidden auto;
 `;
 
+const NoMatch = styled.div`
+    color: #555;
+    font-size: 14px;
+`;
+
 const ListItem = styled.div`
     padding: 2px 0 2px 0;
     display: flex;
@@ -70,13 +82,31 @@ const ListItem = styled.div`
 export const ItemList = () => {
     const dispatch = useAppDispatch();
 
+    const { data, error, isLoading } = useGetItemsQuery();
+    // const data = null;
+    // const error = {};
+    // const isLoading = false;
+
+    if (isLoading) {
+        return <ErrorState>Loading...</ErrorState>;
+    }
+
+    if (error || !data) {
+        return <ErrorState>Failed to load cards</ErrorState>;
+    }
+
+    dispatch(setItems(data));
+
+    return <ItemListContents />;
+};
+
+const ItemListContents = () => {
+    const dispatch = useAppDispatch();
+
     const [previewCard, setPreviewCard] = useState<Item | null>(null);
     const filters: Filters = useAppSelector((state) => filterSelector(state));
     const itemList: Item[] = useAppSelector((state) => filteredItemNameSelector(state));
     const displayPreviewSetting = useAppSelector(displayPreviewSelector);
-
-    //TODO show preview on hover
-    //TODO show empty message when no resuls
 
     const onSliderChange = (lower: number, upper: number) => {
         dispatch(setLevelLower(lower));
@@ -159,6 +189,7 @@ export const ItemList = () => {
             </SearchWrapper>
             <ListWrapper>
                 <FocusZone direction={FocusZoneDirection.vertical}>
+                    {itemList.length === 0 && <NoMatch>No items match your filters</NoMatch>}
                     <List items={itemList} onRenderCell={onRenderCell} onShouldVirtualize={() => false} />
                 </FocusZone>
             </ListWrapper>

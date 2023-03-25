@@ -129,7 +129,7 @@ fs.readFile('input.json', 'utf8', (err, data) => {
     // console.log(usages);
 
     // write the file back to the file system
-    fs.writeFile('src/assets/output.json', JSON.stringify(output), 'utf8', (err) => {
+    fs.writeFile('public/items.json', JSON.stringify(output), 'utf8', (err) => {
         if (err) throw err;
         console.log('The file has been saved!');
     });
