@@ -17,3 +17,4 @@
 * SEO
 * mobile unfriendly warning
 * move output to public?
+* page title and branding (include in page? or in empty state)
