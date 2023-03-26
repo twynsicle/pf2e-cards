@@ -1,5 +1,4 @@
-# TODO Before release
-Purchase domain name
+# TODO next
 
 # TODO later
 * real hosting?
