@@ -190,7 +190,7 @@ const ItemListContents = () => {
             <ListWrapper>
                 <FocusZone direction={FocusZoneDirection.vertical}>
                     {itemList.length === 0 && <NoMatch>No items match your filters</NoMatch>}
-                    <List items={itemList} onRenderCell={onRenderCell} onShouldVirtualize={() => false} />
+                    <List items={itemList} onRenderCell={onRenderCell} onShouldVirtualize={() => true} />
                 </FocusZone>
             </ListWrapper>
             <DefaultButton
