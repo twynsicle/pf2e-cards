@@ -112,6 +112,9 @@ Error generating stack: `+i.message+`
     z-index: 2;
     top: 20%;
     left: -300px;
+    @media (hover: none) {
+        display: none;
+    }
 `,XR=e=>{if(!e.display||!e.item)return null;const t={id:Cb(),item:e.item};return K(YR,{children:K(GR,{card:t})})},ZR=se.div`
     padding: 10px 0 0 0;
     height: calc(100vh - 44px);
@@ -171,7 +174,7 @@ Error generating stack: `+i.message+`
     text-align: center;
     color: #888;
     padding-right: 10px;
-`;function Oy(e,t){return!e||e==="0"||isNaN(Number(e))?t:e}const cB=()=>{const e=Uc(),t=It(xb),r=It(Fb),n=It(kb),o=It(wb),i=It(Pb),a=It(Tb);return Re(sB,{children:[K(pf,{children:"Print settings"}),K(df,{label:"Cards per page",value:r,onChange:(u,s)=>{const l=Oy(s??"","8");e(hk(l))}}),K(df,{label:"Border Radius (mm)",value:t,onChange:(u,s)=>{e(fk(s))}}),K(pf,{children:"Gold Value"}),K(Wa,{label:"Display purchase value",checked:n,onChange:(u,s)=>{e(vk(s||!1))}}),K(Wa,{label:"Display sale value per player",checked:o,onChange:(u,s)=>{e(mk(s||!1))}}),K(df,{label:"Number of players",value:i,onChange:(u,s)=>{const l=Oy(s??"","4");e(gk(l))}}),K(pf,{children:"Misc"}),K(Wa,{label:"Display Card Preview",checked:a,onChange:(u,s)=>{e(pk(s||!1))}}),K(lB,{children:K("p",{children:"This website uses trademarks and/or copyrights owned by Paizo Inc., which are used under Paizo's Community Use Policy. We are expressly prohibited from charging you to use or access this content. This website is not published, endorsed, or specifically approved by Paizo Inc. For more information about Paizo's Community Use Policy, please visit paizo.com/communityuse. For more information about Paizo Inc. and Paizo products, please visit paizo.com."})})]})},dB=se.div`
+`;function Oy(e,t){return!e||e==="0"||isNaN(Number(e))?t:e}const cB=()=>{const e=Uc(),t=It(xb),r=It(Fb),n=It(kb),o=It(wb),i=It(Pb),a=It(Tb);return Re(sB,{children:[K(pf,{children:"Print settings"}),K(df,{label:"Cards per page",value:r,onChange:(u,s)=>{const l=Oy(s??"","8");e(hk(l))}}),K(df,{label:"Border Radius (mm)",value:t,onChange:(u,s)=>{e(fk(s))}}),K(pf,{children:"Gold Value"}),K(Wa,{label:"Display purchase value",checked:n,onChange:(u,s)=>{e(vk(s||!1))}}),K(Wa,{label:"Display sale value per player",checked:o,onChange:(u,s)=>{e(mk(s||!1))}}),K(df,{label:"Number of players",value:i,onChange:(u,s)=>{const l=Oy(s??"","4");e(gk(l))}}),K(pf,{children:"Misc"}),K(Wa,{label:"Display card preview (mouse only)",checked:a,onChange:(u,s)=>{e(pk(s||!1))}}),K(lB,{children:K("p",{children:"This website uses trademarks and/or copyrights owned by Paizo Inc., which are used under Paizo's Community Use Policy. We are expressly prohibited from charging you to use or access this content. This website is not published, endorsed, or specifically approved by Paizo Inc. For more information about Paizo's Community Use Policy, please visit paizo.com/communityuse. For more information about Paizo Inc. and Paizo products, please visit paizo.com."})})]})},dB=se.div`
     //min-width: 300px;
     height: 100vh;
     max-height: 100vh;
