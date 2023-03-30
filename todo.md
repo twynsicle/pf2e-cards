@@ -1,6 +1,4 @@
 # TODO next
-* setup production analytics
-* dom size
 
 # TODO later
 * real hosting?

@@ -9,6 +9,9 @@ const CardPreviewStyled = styled.div`
     z-index: 2;
     top: 20%;
     left: -300px;
+    @media (hover: none) {
+        display: none;
+    }
 `;
 
 interface CardPreviewProps {

@@ -107,7 +107,7 @@ export const Settings = () => {
 
             <SettingHeader>Misc</SettingHeader>
             <Checkbox
-                label="Display Card Preview"
+                label="Display card preview (mouse only)"
                 checked={displayPreview}
                 onChange={(event, newValue) => {
                     dispatch(setDisplayPreview(newValue || false));
