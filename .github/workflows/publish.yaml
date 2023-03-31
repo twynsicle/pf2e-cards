@@ -55,13 +55,18 @@ jobs:
         run: |
           npm install
 
-      - name: Set production Heap id
-        run: |
-          sed -i 's/1591913402/1099409969/g' index.html
-
       - name: Build
         run: |
           npm run build
+
+      - name: Create Sentry release
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: pf2eprintablecards
+          SENTRY_PROJECT: pf2eprintablecards
+        with:
+          environment: production
 
       - name: Deploy 🚀
         uses: JamesIves/github-pages-deploy-action@v4

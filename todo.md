@@ -1,10 +1,15 @@
 # TODO next
+* include source of item
 
 # TODO later
 * real hosting?
+* 
+* visual
+  * dark mode
+  * make page splits more obvious 
 
 * item changes
-  * remove trivial items?
+  * remove trivial items? (perhaps a setting)
   * display of no value items (elixir of rejuvenation, etc)
   * include source?
   * still not getting card length right
@@ -24,8 +29,11 @@
 
 * misc
   * spells tab (coming soon) or make that a sidebar and use micro-frontends
-
+  * could also support creating scrolls and wands
 
 # items
 * Life shot
   * Still has the Elixir of Life effect 
+
+* handwraps of mighty blows
+  * traits don't wrap 

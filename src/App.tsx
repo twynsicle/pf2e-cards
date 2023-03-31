@@ -8,6 +8,7 @@ import { setIconOptions } from '@fluentui/react/lib/Styling';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
 import styled from '@emotion/styled';
+import * as Sentry from '@sentry/react';
 
 initializeIcons(/* optional base url */);
 setIconOptions({
@@ -55,6 +56,12 @@ const SidebarWrapper = styled.div`
 
 function App() {
     const persistedStore = persistStore(store);
+
+    Sentry.init({
+        dsn: 'https://3ca38ff429aa40e6bd78167b5e8b0c15@o4504935193837568.ingest.sentry.io/4504935195344896',
+        integrations: [new Sentry.BrowserTracing()],
+        tracesSampleRate: 0.0,
+    });
 
     return (
         <>

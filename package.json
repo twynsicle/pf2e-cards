@@ -17,6 +17,7 @@
         "@emotion/styled": "^11.10.5",
         "@fluentui/react": "^8.105.3",
         "@reduxjs/toolkit": "^1.9.2",
+        "@sentry/react": "^7.46.0",
         "framer-motion": "^9.0.1",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
