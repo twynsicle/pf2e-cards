@@ -55,6 +55,10 @@ jobs:
         run: |
           npm install
 
+      - name: Set production Heap id
+        run: |
+          sed -i 's/1591913402/1099409969/g' index.html
+
       - name: Build
         run: |
           npm run build
