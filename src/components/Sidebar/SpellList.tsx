@@ -1,25 +1,23 @@
 import styled from '@emotion/styled';
-import { Checkbox, FocusZone, FocusZoneDirection, Label, List, SearchBox, Slider } from '@fluentui/react';
+import { FocusZone, FocusZoneDirection, Label, List, SearchBox, Slider } from '@fluentui/react';
 import { DefaultButton } from '@fluentui/react/lib/Button';
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import {
-    filteredItemNameSelector,
     filterSelector,
     setSearchTerm,
-    setShowConsumable,
-    setShowPermanent,
     setLevelLower,
     setLevelUpper,
-    setItems,
-} from '../../store/features/itemSlice';
+
+} from '../../store/features/spellSlice';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { addCard, clearAllCards } from '../../store/features/cardSlice';
-import { Item, ItemFilters } from "../../types";
+import { Filters, Spell } from "../../types";
 import { displayPreviewSelector } from '../../store/features/settingsSlice';
 import { CardPreview } from './CardPreview/CardPreview';
-import { useGetItemsQuery } from '../../store/services/item';
+import { useGetSpellsQuery } from "../../store/services/spell";
+import { filteredSpellNameSelector, setSpells } from "../../store/features/spellSlice";
 
-const ItemWrapper = styled.div`
+const SpellWrapper = styled.div`
     padding: 10px 0 0 0;
     height: calc(100vh - 44px);
     position: relative;
@@ -36,18 +34,7 @@ const SearchWrapper = styled.div`
 
 const FiltersWrapper = styled.div``;
 
-const ItemType = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    margin-bottom: 10px;
-
-    .ms-Checkbox {
-        margin: 0 10px 0 0;
-    }
-`;
-
-const ItemLevel = styled.div`
+const SpellLevel = styled.div`
     //margin-bottom: -10px;
 
     .ms-Slider .ms-Slider-container label {
@@ -58,7 +45,7 @@ const ItemLevel = styled.div`
 //TODO make max-height a calculation
 const ListWrapper = styled.div`
     //background-color: #555;
-    padding: 0 10px 10px 10px;
+    padding: 0px 10px 10px 10px;
     max-height: 70vh;
     overflow: hidden auto;
 `;
@@ -78,10 +65,10 @@ const ListItem = styled.div`
     font-size: 12px;
 `;
 
-export const ItemList = () => {
+export const SpellList = () => {
     const dispatch = useAppDispatch();
 
-    const { data, error, isLoading } = useGetItemsQuery();
+    const { data, error, isLoading } = useGetSpellsQuery();
     // const data = null;
     // const error = {};
     // const isLoading = false;
@@ -94,17 +81,17 @@ export const ItemList = () => {
         return <ErrorState>Failed to load cards</ErrorState>;
     }
 
-    dispatch(setItems(data));
+    dispatch(setSpells(data));
 
-    return <ItemListContents />;
+    return <SpellListContents />;
 };
 
-const ItemListContents = () => {
+const SpellListContents = () => {
     const dispatch = useAppDispatch();
 
-    const [previewCard, setPreviewCard] = useState<Item | null>(null);
-    const filters: ItemFilters = useAppSelector((state) => filterSelector(state));
-    const itemList: Item[] = useAppSelector((state) => filteredItemNameSelector(state));
+    const [previewCard, setPreviewCard] = useState<Spell | null>(null);
+    const filters: Filters = useAppSelector((state) => filterSelector(state));
+    const spellList: Spell[] = useAppSelector((state) => filteredSpellNameSelector(state));
     const displayPreviewSetting = useAppSelector(displayPreviewSelector);
 
     const onSliderChange = (lower: number, upper: number) => {
@@ -116,65 +103,48 @@ const ItemListContents = () => {
         dispatch(clearAllCards());
     }
 
-    function addItem(item: Item) {
-        dispatch(addCard(item));
+    function addSpell(spell: Spell) {
+        dispatch(addCard(spell));
     }
 
-    const onRenderCell = React.useCallback((item: Item | undefined, index: number | undefined) => {
-        if (!item) {
+    const onRenderCell = React.useCallback((spell: Spell | undefined, index: number | undefined) => {
+        if (!spell) {
             return null;
         }
         return (
             <ListItem
                 data-is-focusable="true"
-                onClick={() => addItem(item)}
+                onClick={() => addSpell(spell)}
                 onMouseEnter={() => {
-                    setPreviewCard(item);
+                    setPreviewCard(spell);
                 }}
                 onMouseLeave={() => {
                     setPreviewCard(null);
                 }}
             >
-                <span>{item?.name}</span>
-                <span>{item?.level}</span>
+                <span>{spell?.name}</span>
+                <span>{spell?.level}</span>
             </ListItem>
         );
     }, []);
 
     return (
-        <ItemWrapper>
+        <SpellWrapper>
             <CardPreview display={Boolean(previewCard) && displayPreviewSetting} card={previewCard} />
             <SearchWrapper>
                 <SearchBox
-                    placeholder="Filter items"
+                    placeholder="Filter spells"
                     value={filters.searchTerm}
                     onChange={(event, newValue) => dispatch(setSearchTerm(newValue))}
                 />
                 <FiltersWrapper>
                     <Label>Item Type</Label>
-                    <ItemType>
-                        <Checkbox
-                            label="Consumable"
-                            checked={filters.showConsumable}
-                            onChange={(event, newValue) => {
-                                dispatch(setShowConsumable(newValue ?? false));
-                            }}
-                        />
-
-                        <Checkbox
-                            label="Permanent"
-                            checked={filters.showPermanent}
-                            onChange={(event, newValue) => {
-                                dispatch(setShowPermanent(newValue ?? false));
-                            }}
-                        />
-                    </ItemType>
-                    <ItemLevel>
+                    <SpellLevel>
                         <Slider
                             ranged
                             label="Item level"
-                            min={0}
-                            max={20}
+                            min={1}
+                            max={10}
                             defaultValue={filters.levelUpper}
                             defaultLowerValue={filters.levelLower}
                             onChanged={(event, number, range) => {
@@ -183,13 +153,13 @@ const ItemListContents = () => {
                                 }
                             }}
                         />
-                    </ItemLevel>
+                    </SpellLevel>
                 </FiltersWrapper>
             </SearchWrapper>
             <ListWrapper>
                 <FocusZone direction={FocusZoneDirection.vertical}>
-                    {itemList.length === 0 && <NoMatch>No items match your filters</NoMatch>}
-                    <List items={itemList} onRenderCell={onRenderCell} onShouldVirtualize={() => true} />
+                    {spellList.length === 0 && <NoMatch>No spells match your filters</NoMatch>}
+                    <List items={spellList} onRenderCell={onRenderCell} onShouldVirtualize={() => true} />
                 </FocusZone>
             </ListWrapper>
             <DefaultButton
@@ -197,6 +167,6 @@ const ItemListContents = () => {
                 text="Clear all"
                 onClick={clearCards}
             ></DefaultButton>
-        </ItemWrapper>
+        </SpellWrapper>
     );
 };

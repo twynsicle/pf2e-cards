@@ -1,9 +1,7 @@
 import styled from '@emotion/styled';
-import { Stack } from '@fluentui/react';
-import { ItemCard } from '../../types';
+import { ItemCard, SpellCard } from "../../types";
 import { useAppSelector } from '../../store/store';
 import { cardSelector } from '../../store/features/cardSlice';
-import { Card } from '../Card/Card';
 import { DeletableCard } from '../Card/DeletableCard';
 import { cardsPerPageSelector } from '../../store/features/settingsSlice';
 import { Landing } from '../Landing/Landing';
@@ -38,7 +36,7 @@ const CardGroup = styled.div`
     }
 `;
 
-function groupedCardList(cards: ItemCard[], chunkSize: number) {
+function groupedCardList(cards: (SpellCard | ItemCard)[], chunkSize: number) {
     const groupedCards = [];
     for (let i = 0; i < cards.length; i += chunkSize) {
         groupedCards.push(cards.slice(i, i + chunkSize));
@@ -48,9 +46,9 @@ function groupedCardList(cards: ItemCard[], chunkSize: number) {
 
 export const CardList = () => {
     const cardsPerPage = useAppSelector(cardsPerPageSelector);
-    const cards: ItemCard[] = useAppSelector((state) => cardSelector(state));
+    const cards: (SpellCard | ItemCard)[] = useAppSelector((state) => cardSelector(state));
 
-    const groupedCards: ItemCard[][] = groupedCardList(cards, Number(cardsPerPage));
+    const groupedCards: (SpellCard | ItemCard)[][] = groupedCardList(cards, Number(cardsPerPage));
 
     if (!cards.length) {
         return <Landing />;
@@ -58,10 +56,10 @@ export const CardList = () => {
 
     return (
         <CardWrapper>
-            {groupedCards.map((group: ItemCard[], index: number) => (
+            {groupedCards.map((group: (ItemCard | SpellCard)[], index: number) => (
                 <CardGroup key={index}>
-                    {group.map((card: ItemCard, index: number) => (
-                        <DeletableCard card={card} key={`${index}-${card.item.id}`} />
+                    {group.map((card: ItemCard | SpellCard, index: number) => (
+                        <DeletableCard content={card} key={`${index}-${card.content.id}`} />
                     ))}
                 </CardGroup>
             ))}

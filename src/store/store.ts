@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import itemReducer from './features/itemSlice';
+import spellReducer from './features/spellSlice';
 import cardReducer from './features/cardSlice';
 import settingsReducer from './features/settingsSlice';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
@@ -9,6 +10,7 @@ import { persistReducer, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } fro
 import thunk from 'redux-thunk';
 import { itemApi } from './services/item';
 import { setupListeners } from '@reduxjs/toolkit/query';
+import { spellApi } from "./services/spell";
 
 const itemsConfig = {
     key: 'items',
@@ -16,17 +18,27 @@ const itemsConfig = {
     blacklist: ['items'],
 };
 
+const spellsConfig = {
+    key: 'spells',
+    storage: storage,
+    blacklist: ['spells'],
+};
+
 const persistConfig = {
     key: 'root',
     storage,
-    blacklist: ['items'],
+    blacklist: ['items', 'spells', 'spellApi', 'itemApi'],
 };
 
 const reducers = combineReducers({
-    items: persistReducer(itemsConfig, itemReducer),
+    // items: persistReducer(itemsConfig, itemReducer),
+    items: itemReducer,
+    // spells: persistReducer(spellsConfig, spellReducer),
+    spells: spellReducer,
     cards: cardReducer,
     settings: settingsReducer,
     [itemApi.reducerPath]: itemApi.reducer,
+    [spellApi.reducerPath]: spellApi.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);
@@ -41,7 +53,7 @@ export const store = configureStore({
             serializableCheck: {
                 ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
             },
-        }).concat([itemApi.middleware, thunk]),
+        }).concat([itemApi.middleware, spellApi.middleware, thunk]),
 });
 
 setupListeners(store.dispatch);

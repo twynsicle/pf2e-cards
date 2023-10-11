@@ -1,11 +1,11 @@
 import './Card.css';
-import { ItemCard } from '../../types';
 import { useAppSelector } from '../../store/store';
 import {
     displayPurchaseValueSelector,
     displaySaleValueSelector,
     playerCountSelector,
 } from '../../store/features/settingsSlice';
+import { ItemCard } from "../../types";
 
 export interface CardContentProps {
     card: ItemCard;
@@ -62,8 +62,8 @@ function calculatePurchaseValue(price: number): string {
 
 //TODO do i need to include damage for mundane and magical weapons?
 
-export const CardContent = (props: CardContentProps) => {
-    const item = props.card.item;
+export const ItemCardContent = (props: CardContentProps) => {
+    const item = props.card.content;
 
     const displayPurchaseValue = useAppSelector(displayPurchaseValueSelector);
     const displaySaleValue = useAppSelector(displaySaleValueSelector);

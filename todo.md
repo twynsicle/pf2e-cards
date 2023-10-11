@@ -1,6 +1,15 @@
 # TODO next
 * include source of item
 
+
+# Spells
+how do i display cantrips
+* and how do i filter on them
+* have the cantrip trait -> display as cantrip in the spell list
+* put persist logic back?
+
+* github publish support
+
 # TODO later
 * real hosting?
 * 

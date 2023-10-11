@@ -60,7 +60,7 @@ function calculatePrice(values) {
     return total;
 }
 
-fs.readFile('input.json', 'utf8', (err, data) => {
+fs.readFile('input-items.json', 'utf8', (err, data) => {
     if (err) throw err;
 
     let jsonData = JSON.parse(data);

@@ -15,13 +15,31 @@ export interface Item {
 
 export interface ItemCard {
     id: string;
-    item: Item;
+    content: Item;
+}
+
+export interface Spell {
+    id: string;
+    name: string;
+    level: number;
+    traits: string[];
+    rarity: string;
+    duration: string;
+    description: string
+}
+
+export interface SpellCard {
+    id: string;
+    content: Spell;
 }
 
 export interface Filters {
     searchTerm: string;
-    showConsumable: boolean;
-    showPermanent: boolean;
     levelUpper: number;
     levelLower: number;
+}
+
+export interface ItemFilters extends Filters{
+    showConsumable: boolean;
+    showPermanent: boolean;
 }

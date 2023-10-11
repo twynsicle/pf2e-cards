@@ -1,12 +1,16 @@
-import { CardProps } from './Card';
 import { useAppDispatch, useAppSelector } from '../../store/store';
 import { borderRadiusSelector } from '../../store/features/settingsSlice';
 import { Icon } from '@fluentui/react/lib/Icon';
-import { CardContent } from './CardContent';
+import { ItemCardContent } from './ItemCardContent';
 import { removeCard } from '../../store/features/cardSlice';
 import styled from '@emotion/styled';
+import { ItemCard, SpellCard } from "../../types";
+import React from "react";
+import { SpellCardContent } from "./SpellCardContent";
 
-export type DeletableCardProps = CardProps
+export type DeletableCardProps = {
+    content: ItemCard | SpellCard;
+}
 
 const CloseIcon = styled.div`
     position: absolute;
@@ -39,15 +43,33 @@ export const DeletableCard = (props: DeletableCardProps) => {
     };
 
     function removeCardHandler() {
-        dispatch(removeCard(props.card.id));
+        dispatch(removeCard(props.content.id));
     }
 
-    return (
-        <div className="card" style={cardStyle}>
+    const Close = () => {
+        return (
             <CloseIcon className="close" onClick={removeCardHandler} style={closeIconStyle}>
                 <Icon iconName="ChromeClose" />
             </CloseIcon>
-            <CardContent {...props} />
-        </div>
-    );
+        )
+    }
+
+    if ((props.content.content as any).price ) {
+        let itemCard = props.content as ItemCard
+
+        return (
+            <div className="card" style={cardStyle}>
+                <Close />
+                <ItemCardContent card={itemCard} />
+            </div>
+        );
+    } else {
+        let spellCard = props.content as SpellCard
+        return (
+            <div className="card" style={cardStyle}>
+                <Close />
+                <SpellCardContent card={spellCard} />
+            </div>
+        );
+    }
 };

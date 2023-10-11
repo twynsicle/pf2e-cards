@@ -3,6 +3,7 @@ import React from 'react';
 import { ItemList } from './ItemList';
 import { Pivot, PivotItem } from '@fluentui/react';
 import { Settings } from './Settings';
+import { SpellList } from "./SpellList";
 
 const SidebarWrapper = styled.div`
     //min-width: 300px;
@@ -19,6 +20,9 @@ export const Sidebar = () => {
     return (
         <SidebarWrapper>
             <Pivot aria-label="Sidebar">
+                <PivotItem headerText="Spells">
+                    <SpellList />
+                </PivotItem>
                 <PivotItem headerText="Items">
                     <ItemList />
                 </PivotItem>

@@ -28,12 +28,12 @@ jobs:
 
       - name: Process items
         run: |
-          node scripts/process.js
+          node scripts/process-items.js
 
       - uses: actions/upload-artifact@v3
         with:
           name: items-merged
-          path: input.json
+          path: input-spells.json
 
       - uses: actions/upload-artifact@v3
         with:

@@ -2,11 +2,11 @@ import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // import items from '../../../public/output.json';
 import { RootState } from '../store';
-import { Filters, Item } from '../../types';
+import { Filters, Item, ItemFilters } from "../../types";
 
 export interface ItemState {
     items: Item[];
-    filters: Filters;
+    filters: ItemFilters;
 }
 
 const initialState: ItemState = {
@@ -48,7 +48,7 @@ export const itemSlice = createSlice({
 
 const itemsState = (state: RootState) => state.items;
 
-function filterItem(item: Item, filterOptions: Filters) {
+function filterItem(item: Item, filterOptions: ItemFilters) {
     if (!item.name.toLowerCase().startsWith(filterOptions.searchTerm.toLowerCase())) {
         return false;
     }

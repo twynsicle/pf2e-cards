@@ -1,8 +1,9 @@
-import { Item } from '../../../types';
-import { Card } from '../../Card/Card';
+import { Item, ItemCard, Spell, SpellCard } from "../../../types";
 import React from 'react';
 import styled from '@emotion/styled';
 import uuid from 'react-uuid';
+import { ItemCardContent } from "../../Card/ItemCardContent";
+import { SpellCardContent } from "../../Card/SpellCardContent";
 
 const CardPreviewStyled = styled.div`
     position: absolute;
@@ -16,22 +17,42 @@ const CardPreviewStyled = styled.div`
 
 interface CardPreviewProps {
     display: boolean;
-    item: Item | null;
+    card: Item | Spell | null;
 }
 
 export const CardPreview = (props: CardPreviewProps) => {
-    if (!props.display || !props.item) {
+    if (!props.display || !props.card) {
         return null;
     }
 
-    const wrappedItem = {
-        id: uuid(),
-        item: props.item,
+    const borderRadius = 3;
+    const cardStyle = {
+        borderRadius: `${borderRadius}mm`,
     };
 
-    return (
-        <CardPreviewStyled>
-            <Card card={wrappedItem} />
-        </CardPreviewStyled>
-    );
+    if ((props.card as any).price ) {
+        const wrappedItem: ItemCard = {
+            id: uuid(),
+            content: props.card as Item,
+        };
+        return (
+            <CardPreviewStyled>
+                <div className="card" style={cardStyle}>
+                    <ItemCardContent card={wrappedItem} />
+                </div>
+            </CardPreviewStyled>
+        );
+    } else {
+        const wrappedSpell: SpellCard = {
+            id: uuid(),
+            content: props.card as Spell,
+        };
+        return (
+            <CardPreviewStyled>
+                <div className="card" style={cardStyle}>
+                    <SpellCardContent card={wrappedSpell} />
+                </div>
+            </CardPreviewStyled>
+        );
+    }
 };

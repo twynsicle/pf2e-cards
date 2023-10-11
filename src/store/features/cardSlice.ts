@@ -1,10 +1,10 @@
 import { RootState } from '../store';
 import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ItemCard, Item } from '../../types';
+import { Item, Spell, ItemCard, SpellCard } from "../../types";
 import uuid from 'react-uuid';
 
 export interface CardState {
-    cards: ItemCard[];
+    cards: (SpellCard | ItemCard)[];
 }
 
 const initialState: CardState = {
@@ -15,11 +15,19 @@ export const cardSlice = createSlice({
     name: 'card',
     initialState,
     reducers: {
-        addCard: (state, action: PayloadAction<Item>) => {
-            state.cards.push({
-                id: uuid(),
-                item: action.payload,
-            });
+        addCard: (state, action: PayloadAction<Item | Spell>) => {
+            //TODO this isn't great, well include free items
+            if ((action.payload as any).price ) {
+                state.cards.push({
+                    id: uuid(),
+                    content: action.payload,
+                } as ItemCard);
+            } else {
+                state.cards.push({
+                    id: uuid(),
+                    content: action.payload,
+                } as SpellCard);
+            }
         },
         removeCard: (state, action: PayloadAction<string>) => {
             state.cards = state.cards.filter((card) => card.id !== action.payload);
